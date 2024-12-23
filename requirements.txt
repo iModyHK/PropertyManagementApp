@@ -4,5 +4,5 @@ sqlparse==0.5.2
 tzdata==2024.2
 weasyprint==53.3
 openpyxl==3.0.9
-reportlab==3.6.1
+reportlab==3.6.13
 xhtml2pdf==0.2.5
