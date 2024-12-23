@@ -1,0 +1,103 @@
+{% extends 'base.html' %}
+
+{% block title %}الوحدات السكنية{% endblock %}
+
+{% block content %}
+<style>
+    .table-pretty {
+        width: 100%;
+        border-collapse: collapse;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+    
+    .table-pretty th, .table-pretty td {
+        border: 1px solid #ddd;
+        padding: 12px 15px;
+        text-align: center; /* Center the text */
+    }
+    
+    .table-pretty th {
+        background-color: #4CAF50;
+        color: white;
+        font-weight: bold;
+    }
+    
+    .table-pretty tr:nth-child(even) {
+        background-color: #f9f9f9;
+    }
+    
+    .table-pretty tr:hover {
+        background-color: #f1f1f1;
+    }
+    
+    .table-pretty th, .table-pretty td {
+        transition: background-color 0.3s ease;
+    }
+    
+    .table-pretty th:first-child, .table-pretty td:first-child {
+        border-left: none;
+    }
+    
+    .table-pretty th:last-child, .table-pretty td:last-child {
+        border-right: none;
+    }
+    .custom-btn {
+        margin-right: 10px; /* Adjust the margin as needed */
+    }
+    </style>
+<div class="container pis-container">
+    <h1><i class="fas fa-building"></i> الوحدات السكنية</h1>
+    <form method="get" action=".">
+        <div class="input-group mb-3">
+            <input type="text" name="q" class="form-control" placeholder="ابحث عن وحدة سكنية..." value="{{ request.GET.q }}">
+            <select name="column" class="form-control">
+                <option value="حي" {% if request.GET.column == 'حي' %}selected{% endif %}>الحي</option>
+                <option value="وحدة" {% if request.GET.column == 'وحدة' %}selected{% endif %}>الوحدة</option>
+                <option value="حالة" {% if request.GET.column == 'حالة' %}selected{% endif %}>الحالة</option>
+                <option value="طوابق" {% if request.GET.column == 'طوابق' %}selected{% endif %}>الطوابق</option>
+                <option value="نوع" {% if request.GET.column == 'نوع' %}selected{% endif %}>النوع</option>
+                <option value="قطاع" {% if request.GET.column == 'قطاع' %}selected{% endif %}>القطاع</option>
+            </select>
+            <div class="input-group-append">
+                <button type="submit" class="btn btn-primary"><i class="fas fa-search"></i> بحث</button>
+            </div>
+        </div>
+    </form>
+    <div class="custom-group mb-3 custom-btn" role="group">
+        <a href="{% url 'property_create' %}" class="btn btn-primary"><i class="fas fa-plus"></i> إنشاء وحدة سكنية جديدة</a>
+        <a href="{% url 'property_list_pdf' %}?q={{ request.GET.q }}&column={{ request.GET.column }}" class="btn btn-secondary ml-2"><i class="fas fa-file-pdf"></i> طباعة PDF</a>
+    </div>
+    <p>آخر تحديث: {{ last_update }}</p>
+    <table id="property-table" class="table table-striped table-pretty">
+        <thead>
+            <tr>
+                <th>الحي</th>
+                <th>الوحدة</th>
+                <th>الحالة</th>
+                <th>الطوابق</th>
+                <th>النوع</th>
+                <th>القطاع</th>
+                <th>الإجراءات</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for property in properties %}
+                <tr>
+                    <td>{{ property.cluster }}</td>
+                    <td>{{ property.villa }}</td>
+                    <td>{{ property.status }}</td>
+                    <td>{{ property.floors }}</td>
+                    <td>{{ property.type }}</td>
+                    <td>{{ property.sector }}</td>
+                    <td>
+                        <a href="{% url 'property_edit' property.pk %}" class="btn btn-sm btn-warning"><i class="fas fa-edit"></i> تعديل</a>
+                        <a href="{% url 'property_delete' property.pk %}" class="btn btn-sm btn-danger"><i class="fas fa-trash"></i> حذف</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

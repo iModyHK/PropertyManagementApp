@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block title %}تأكيد اخلاء ساكن{% endblock %}
+
+{% block content %}
+<div class="container pis-container">
+    <h1>هل أنت متأكد من إخلاء هذا الساكن من الوحدة؟ لن تستطيع استعادة الساكن</h1>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">نعم , قم بإخلاء الساكن</button>
+    </form>
+    <a href="{% url 'tenant_list' %}" class="btn btn-secondary">الغاء الاخلاء</a>
+</div>
+    {% endblock %}

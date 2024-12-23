@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الاخلاءات</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            text-align: right;
+        }
+        .table {
+            direction: rtl;
+        }
+        .table th, .table td {
+            text-align: right;
+        }
+    </style>
+</head>
+<body>
+    <h1>الاخلاءات</h1>
+    <p>آخر تحديث : {{ last_update }}</p>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>الاسم</th>
+                <th>رقم السجل المدني</th>
+                <th>رقم الجوال</th>
+                <th>القطاع</th>
+                <th>تاريخ استلام الوحدة</th>
+                <th>الرتبة</th>
+                <th>الحي</th>
+                <th>الوحدة</th>
+                <th>تاريخ اخلاء الوحدة</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for tenant in archived_tenants %}
+                <tr>
+                    <td>{{ tenant.name }}</td>
+                    <td>{{ tenant.tenant_id }}</td>
+                    <td>{{ tenant.mobile }}</td>
+                    <td>{{ tenant.sector }}</td>
+                    <td>{{ tenant.date_of_lease }}</td>
+                    <td>{{ tenant.rank }}</td>
+                    <td>{{ tenant.cluster }}</td>
+                    <td>{{ tenant.villa }}</td>
+                    <td>{{ tenant.archived_date }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

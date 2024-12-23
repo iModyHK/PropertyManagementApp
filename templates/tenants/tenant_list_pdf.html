@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+    <head>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Markazi+Text&family=Tajawal:wght@200;300;400;500;700;800;900&display=swap" rel="stylesheet">
+        <meta charset="UTF-8">
+        <title>قائمة السكان PDF</title>
+        <style>
+            @font-face {
+                font-family: 'MarkaziText';
+                src: url('/static/fonts/MarkaziText-Regular.ttf') format('truetype');
+            }
+            @font-face {
+                font-family: 'Tajawal';
+                src: url('/static/fonts/Tajawal-Regular.ttf') format('truetype');
+            }
+            body {
+                font-family: 'Tajawal', sans-serif;
+                direction: rtl;
+                text-align: right;
+            }
+            table {
+                width: 100%;
+                border-collapse: collapse;
+            }
+            th, td {
+                border: 1px solid black;
+                padding: 8px;
+                text-align: right;
+            }
+            th {
+                background-color: #f2f2f2;
+            }
+        </style>
+    </head>
+<body>
+    <h1>قائمة السكان</h1>
+    <p>آخر تحديث: {{ last_update }}</p>
+    <table>
+        <thead>
+            <tr>
+                <th>الاسم</th>
+                <th>رقم الهوية</th>
+                <th>الجوال</th>
+                <th>القطاع</th>
+                <th>تاريخ استلام الوحدة</th>
+                <th>الرتبة</th>
+                <th>الحي</th>
+                <th>الوحدة</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for tenant in tenants %}
+                <tr>
+                    <td>{{ tenant.name }}</td>
+                    <td>{{ tenant.tenant_id }}</td>
+                    <td>{{ tenant.mobile }}</td>
+                    <td>{{ tenant.sector }}</td>
+                    <td>{{ tenant.date_of_lease }}</td>
+                    <td>{{ tenant.rank }}</td>
+                    <td>{{ tenant.property.cluster }}</td>
+                    <td>{{ tenant.property.villa }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

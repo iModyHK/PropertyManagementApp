@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block title %}تأكيد حذف وحدة سكنية{% endblock %}
+
+{% block content %}
+<div class="container pis-container">
+    <h1>هل أنت متأكد من حذف هذه الوحدة؟</h1>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">نعم , قم بالحذف</button>
+    </form>
+    <a href="{% url 'property_list' %}" class="btn btn-secondary">الغاء الحذف</a>
+</div>
+    {% endblock %}

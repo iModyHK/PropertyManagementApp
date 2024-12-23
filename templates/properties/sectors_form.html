@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block title %}تحديد الفلل للقطاعات{% endblock %}
+
+{% block content %}
+<div class="container pis-container">
+    <h1><i class="fas fa-home"></i>تحديد الفلل للقطاعات</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">
+            <i class="fas fa-save"></i> حفظ
+        </button>
+    </form>
+</div>
+{% endblock %}

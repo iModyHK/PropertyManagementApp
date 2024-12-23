@@ -1,0 +1,31 @@
+body {
+    background-color: #f8f9fa;
+    direction: rtl; /* Set the direction to RTL */
+    text-align: right; /* Align text to the right */
+}
+
+.navbar {
+    margin-bottom: 20px;
+}
+
+.card {
+    margin-bottom: 20px;
+}
+
+.table {
+    margin-top: 20px;
+}
+
+.rtl-container {
+    direction: rtl;
+    text-align: right;
+}
+
+.h1 {
+    direction: rtl;
+    text-align: right;
+}
+
+.table th, .table td {
+    text-align: right; /* Ensure table text is aligned to the right */
+}

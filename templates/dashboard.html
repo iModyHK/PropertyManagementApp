@@ -1,0 +1,137 @@
+{% extends 'base.html' %}
+
+{% block title %}لوحة المعلومات{% endblock %}
+
+{% block content %}
+    <style>
+        .table-pretty {
+            width: 100%;
+            border-collapse: collapse;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .table-pretty th, .table-pretty td {
+            border: 1px solid #ddd;
+            padding: 12px 15px;
+            text-align: center; /* Center the text */
+        }
+        
+        .table-pretty th {
+            background-color: #4CAF50;
+            color: white;
+            font-weight: bold;
+        }
+        
+        .table-pretty tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        
+        .table-pretty tr:hover {
+            background-color: #f1f1f1;
+        }
+        
+        .table-pretty th, .table-pretty td {
+            transition: background-color 0.3s ease;
+        }
+        
+        .table-pretty th:first-child, .table-pretty td:first-child {
+            border-left: none;
+        }
+        
+        .table-pretty th:last-child, .table-pretty td:last-child {
+            border-right: none;
+        }
+        .custom-btn {
+            margin-right: 10px; /* Adjust the margin as needed */
+        }
+    </style>
+    <div class="container pis-container">
+        <h1><i class="fas fa-tachometer-alt"></i> لوحة المعلومات</h1>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card text-white bg-danger mb-3">
+                    <div class="card-header"><i class="fas fa-building"></i> الوحدات المشغولة</div>
+                    <div class="card-body">
+                        <h5 class="card-title">{{ occupied_count }}</h5>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card text-white bg-success mb-3">
+                    <div class="card-header"><i class="fas fa-building"></i> الوحدات الشاغرة</div>
+                    <div class="card-body">
+                        <h5 class="card-title">{{ vacant_count }}</h5>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+        <h3>توزيع السكان والوحدات حسب القطاع</h3>
+        <div class="container pis-container">
+            <table id="dashboard-table" class="table table-striped table-pretty">
+                <thead>
+                    <tr>
+                        <th>القطاع</th>
+                        <th class="nowrap">السكان الضباط</th>
+                        <th class="nowrap">الوحدات للضباط</th>
+                        <th class="nowrap">السكان الافراد</th>
+                        <th class="nowrap">الوحدات للافراد</th>
+                        <th class="nowrap">إجمالي السكان</th>
+                        <th class="nowrap">إجمالي الوحدات</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for sector, data in sectors.items %}
+                        <tr>
+                            <td>{{ sector }}</td>
+                            <td>{{ data.types.للضباط.tenant_count|default:0 }}</td>
+                            <td>{{ data.types.للضباط.property_count|default:0 }}</td>
+                            <td>{{ data.types.للافراد.tenant_count|default:0 }}</td>
+                            <td>{{ data.types.للافراد.property_count|default:0 }}</td>
+                            <td>{{ data.total_tenants }}</td>
+                            <td>{{ data.total_properties }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <div class="row">
+                <div class="col-md-12">
+                    <canvas id="sectorChart"></canvas>
+                </div>
+            </div>
+            
+            <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+            <script>
+                var ctx = document.getElementById('sectorChart').getContext('2d');
+                var sectorChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: [{% for sector in sectors.keys %}'{{ sector }}',{% endfor %}],
+                        datasets: [{
+                            label: 'إجمالي السكان',
+                            data: [{% for sector, data in sectors.items %}{{ data.total_tenants|default:0 }},{% endfor %}],
+                            backgroundColor: 'rgba(40, 167, 69, 0.2)', // Site color for background
+                            borderColor: 'rgba(40, 167, 69, 1)', // Site color for border
+                            borderWidth: 1
+                        }, {
+                            label: 'إجمالي الوحدات',
+                            data: [{% for sector, data in sectors.items %}{{ data.total_properties|default:0 }},{% endfor %}],
+                            backgroundColor: 'rgba(23, 162, 184, 0.2)', // Site color for background
+                            borderColor: 'rgba(23, 162, 184, 1)', // Site color for border
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            y: {
+                                beginAtZero: true
+                            }
+                        }
+                    }
+                });
+            </script>
+        </div>
+    </div>
+{% endblock %}

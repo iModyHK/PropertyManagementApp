@@ -1,0 +1,16 @@
+/* static/css/rtl.css */
+body, .rtl-container {
+    direction: rtl;
+    text-align: right;
+}
+
+.rtl-container th, .rtl-container td {
+    text-align: right;
+}
+
+.btn-group .btn {
+    margin-left: 5px;
+}
+.btn-group .btn-secondary.ml-2 {
+    margin-left: 10px; /* Adjust the value as needed */
+} 
